@@ -1,0 +1,381 @@
+/* =========================================================
+   ТОКЕНЫ ДИЗАЙНА — «Дневник у гирлянды огней»
+   Тёплая бумага, скрапбук при свечах: кремовый пергамент,
+   гирлянда золотых лампочек, акварельные акценты, рукописный шрифт.
+   ========================================================= */
+:root {
+  --bg-deep:    #F6EBD9;   /* тёплая бумага — основной фон */
+  --bg-panel:   #EFDFC0;   /* приглушённая бумага для панелей */
+  --gold:       #C98A2E;   /* нить гирлянды / чернила-охра */
+  --gold-soft:  #E8B85C;   /* тёплое свечение лампочек */
+  --rose:       #D65C74;   /* акварельная роза */
+  --coral:      #DD8354;   /* акварельный коралл */
+  --teal:       #3E938C;   /* приглушённая бирюза-шалфей */
+  --cream:      #3A2C1E;   /* чернила — основной текст на бумаге */
+  --muted:      #8A7250;   /* приглушённый охристо-коричневый */
+  --ink-soft:   #6B5439;
+
+  --font-display: 'Fraunces', serif;
+  --font-accent:  'Caveat', cursive;
+  --font-body:    'Nunito', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--cream);
+}
+
+/* тёплая бумажная фактура + лёгкая тень по краям, как у старого листа */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(90,64,32,0.16) 100%);
+  animation: vignetteBreathe 9s ease-in-out infinite;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 36;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+@keyframes vignetteBreathe {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+#fx-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ===== ЭКРАН "ТЯНИ ЗА ЛЕНТУ" ===== */
+#pull-screen {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 15%, rgba(201,138,46,0.16), transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(62,147,140,0.10), transparent 60%),
+    var(--bg-deep);
+  background-size: 140% 140%;
+  animation: pullBgDrift 14s ease-in-out infinite;
+  z-index: 100;
+  touch-action: none;
+  user-select: none;
+  transition: opacity 0.8s ease;
+}
+
+@keyframes pullBgDrift {
+  0%, 100% { background-position: 50% 0%, 50% 100%, 0 0; }
+  50% { background-position: 46% 8%, 54% 92%, 0 0; }
+}
+
+#rope-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#pull-hint {
+  position: absolute;
+  top: 280px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  color: var(--ink-soft);
+  font-family: var(--font-accent);
+  font-weight: 700;
+  font-size: 1.8em;
+  letter-spacing: 2px;
+  opacity: 0.85;
+  animation: pulse 2.4s infinite ease-in-out;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) rotate(-2deg) translateY(0); }
+  50% { opacity: 1; transform: translateX(-50%) rotate(-2deg) translateY(6px); }
+}
+
+/* ===== ЗАГОЛОВОК ПОЗДРАВЛЕНИЯ ===== */
+#birthday-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(10px);
+  transform: scale(0.7);
+  transition: opacity 1.4s ease, transform 1.4s ease, filter 1.4s ease;
+  padding: 20px;
+  text-align: center;
+}
+
+#birthday-title.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+#birthday-title::before {
+  content: '✦';
+  display: block;
+  color: var(--gold);
+  font-size: 1.4em;
+  margin-bottom: 18px;
+  text-shadow: 0 0 18px rgba(201,138,46,0.5);
+  animation: starTwinkle 2.2s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.7; transform: scale(1) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.15) rotate(8deg); }
+}
+
+#birthday-title h1 {
+  position: relative;
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.2em, 7vw, 5.8em);
+  text-align: center;
+  line-height: 1.35;
+  letter-spacing: 0.5px;
+  margin: 0 auto;
+  padding: 0.35em 0.6em;
+  background: rgba(246,235,217,0.55);
+  border-radius: 6px;
+  box-shadow: 0 18px 45px -20px rgba(90,64,32,0.4);
+  animation: titleFloat 6s ease-in-out infinite 1.4s;
+}
+
+@keyframes titleFloat {
+  0%, 100% { transform: translateY(0) rotate(-0.4deg); }
+  50% { transform: translateY(-8px) rotate(0.4deg); }
+}
+
+/* полоска васи-скотча над заголовком */
+#birthday-title h1::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  width: 130px;
+  height: 34px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: repeating-linear-gradient(115deg, rgba(232,184,92,0.55) 0 8px, rgba(214,92,116,0.4) 8px 16px);
+  opacity: 0.75;
+  box-shadow: 0 4px 10px rgba(90,64,32,0.2);
+}
+
+/* ===== КНОПКА ПЕРЕЙТИ К ПОЖЕЛАНИЮ ===== */
+#wish-button-wrap {
+  position: fixed;
+  bottom: 10vh;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 12;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.9);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+#wish-button-wrap.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+#wish-button-wrap.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#wish-btn {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-deep);
+  color: var(--cream);
+  border: 1.5px solid var(--gold);
+  padding: 18px 44px;
+  font-size: 1.05em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 10px 28px -14px rgba(90,64,32,0.5);
+  animation: btnBreathe 2.6s ease-in-out infinite;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+#wish-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform: skewX(-20deg);
+  animation: btnShine 3.2s ease-in-out infinite;
+}
+
+@keyframes btnShine {
+  0% { left: -60%; }
+  45%, 100% { left: 130%; }
+}
+
+#wish-btn:hover {
+  transform: scale(1.05);
+  border-color: var(--gold-soft);
+}
+
+#wish-btn:active {
+  transform: scale(0.97);
+}
+
+@keyframes btnBreathe {
+  0%, 100% {
+    box-shadow: 0 10px 28px -14px rgba(90,64,32,0.5), 0 0 0 rgba(201,138,46,0);
+  }
+  50% {
+    box-shadow: 0 10px 28px -14px rgba(90,64,32,0.5), 0 0 22px rgba(201,138,46,0.35);
+  }
+}
+
+#transition-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, var(--bg-deep) 0%, var(--gold-soft) 38%, var(--rose) 72%, transparent 100%);
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0);
+  filter: blur(0px);
+  transition: transform 0.85s cubic-bezier(0.16,1,0.3,1), opacity 0.6s ease 0.3s, filter 0.85s ease;
+}
+
+#transition-flash.active {
+  opacity: 1;
+  transform: scale(3.4);
+  filter: blur(2px);
+}
+
+#transition-flash::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(58,44,30,0.35);
+  transform: scale(0);
+  opacity: 0;
+}
+
+#transition-flash.active::after {
+  animation: shockRing 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+@keyframes shockRing {
+  0% { transform: scale(0.3); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ===== ФИНАЛЬНОЕ СООБЩЕНИЕ ===== */
+#wish-final {
+  align-self: center;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.1em, 5.8vw, 3.3em);
+  color: var(--cream);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 1s ease, transform 1s ease;
+  position: relative;
+  z-index: 1;
+}
+
+#wish-final.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#heart-btn {
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin-left: 10px;
+  filter: drop-shadow(0 4px 10px rgba(214,92,116,0.4));
+}
+
+#heart-btn:hover {
+  transform: scale(1.25) rotate(-6deg);
+}
+
+#heart-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pull-hint, #wish-btn, #birthday-title h1 { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}

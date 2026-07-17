@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Тёплая интерактивная открытка с днём рождения — гирлянда воспоминаний, свеча-желание и сюрприз внутри.">
+<meta name="theme-color" content="#C98A2E">
+<title>С Днём Рождения, Анастасия!</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Caveat:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="wish.css">
+<link rel="stylesheet" href="music.css">
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<canvas id="fx-canvas"></canvas>
+
+<div id="pull-screen">
+  <canvas id="rope-canvas"></canvas>
+  <p id="pull-hint">тяни ↓</p>
+</div>
+
+<div id="birthday-title">
+  <h1>С Днём Рождения,<br>Анастасия!</h1>
+</div>
+
+<div id="wish-button-wrap">
+  <button id="wish-btn">Перейти к пожеланию</button>
+</div>
+
+<div id="transition-flash"></div>
+
+
+<div id="wish-screen">
+  <div id="wish-track">
+  <div class="wish-block left">
+    <p class="wish-text" style="color:var(--rose)">С днём рождения, родная Анастасия!</p>
+  </div>
+
+  <div class="wish-block right">
+    <p class="wish-text" style="color:var(--coral)">Пусть твоя жизнь будет сладкой и сочной, как спелое манго</p>
+    <div class="wish-photo"><img src="47267.750x0-Photoroom.png" alt=""></div>
+  </div>
+
+  <div class="wish-block left">
+    <p class="wish-text" style="color:var(--teal)">Живи так же ярко и уверенно, как звезда, которая сама выбирает, когда сиять</p>
+    <div class="wish-photo"><img src="4a07dd7eb0099f3a9e7bf902a1fa2b19-Photoroom.png" alt=""></div>
+  </div>
+
+  <div class="wish-block right">
+    <p class="wish-text" style="color:var(--muted)">Пусть все проблемы сгорают быстро и без остатка, как искры фейерверка в ночном небе</p>
+    <div class="wish-photo"><img src="87b47a8ce0f999262431062e7e3b4554-Photoroom.png" alt=""></div>
+  </div>
+
+  <div class="wish-block left">
+    <p class="wish-text" style="color:var(--rose)">А Мелстрой пусть со всеми своими миллионами отдыхает — ты в любом случае намного круче него!</p>
+    <div class="wish-photo"><img src="b717961419df840a4eaccf81c18146f6-Photoroom.png" alt=""></div>
+  </div>
+
+  <div class="wish-block right">
+    <p class="wish-text" style="color:var(--coral)">Оставайся всегда такой же особенной, яркой и неповторимой!!!</p>
+    <div class="wish-photo"><img src="370966ab6569090f4a1a5b0522c2000c-Photoroom.png" alt=""></div>
+  </div>
+
+  <div class="wish-block final">
+    <p id="wish-candle-hint">Задуй свечку и загадай желание — оно обязательно сбудется</p>
+    <div id="wish-candle" role="button" tabindex="0" aria-label="Задуть свечу и загадать желание">
+      <div class="candle-flame"></div>
+      <div class="candle-glow"></div>
+      <div class="candle-body"></div>
+    </div>
+    <div id="wish-final">
+      Люблю и обнимаю
+      <span id="heart-btn" role="button" tabindex="0" aria-label="Открыть секрет">❤️</span>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div id="music-player">
+  <button id="music-toggle" aria-label="Вкл/выкл музыку">🔊</button>
+  <input type="range" id="music-volume" min="0" max="100" value="50" aria-label="Громкость музыки">
+</div>
+
+<canvas id="heart-canvas"></canvas>
+
+<audio id="sound-fireworks" src="nico0825-fireworks-402788.mp3" preload="auto"></audio>
+<audio id="sound-horn" src="yusuf_sfx-horn-party-horn-502100.mp3" preload="auto"></audio>
+<audio id="bg-music" src="DNCE Cake By The Ocean (Lyrics).m4a" preload="auto" loop></audio>
+
+<a id="secret-download" href="секрет.mp4" download="секрет.mp4" style="display:none" aria-hidden="true"></a>
+
+<script src="script.js"></script>
+<script src="music.js"></script>
+<script src="wish.js"></script>
+</body>
+</html>
